@@ -1,5 +1,10 @@
 import { equal } from 'assert'
-import { allBigAndBold, beReallyWelcoming, eitherHello, isBigAndBold, join, renderTitle, soBold } from './composing'
+import { stub, SinonStub } from 'sinon'
+import * as env from './env'
+import {
+  allBigAndBold, beReallyWelcoming, eitherHello, iLoveEditor, isBigAndBold, join, renderTitle,
+  soBold
+} from './composing'
 import { identity } from 'fp-ts/lib/function'
 
 describe('composing', function () {
@@ -30,7 +35,7 @@ describe('composing', function () {
     it('should use the default string', function () {
       equal(
         eitherHello(null).fold(identity, identity),
-        'rude!!')
+        'yo!!')
     })
   })
 
@@ -49,7 +54,7 @@ describe('composing', function () {
       const result = allBigAndBold(['big and bold', 'bold and big'])
       equal(result.isRight(), true)
       equal(
-        result.map(join(',')).getOrElseValue(null),
+        result.map(join(',')).getOrElse(null),
         'big and bold,bold and big'
       )
     })
@@ -67,6 +72,23 @@ describe('composing', function () {
           throw new Error('should not run')
         }
       )
+    })
+  })
+
+  describe('io', function () {
+    let envStub: SinonStub
+
+    beforeEach(function () {
+      envStub = stub(env, 'readEnv')
+        .returns({ EDITOR: 'webstorm' })
+    })
+
+    afterEach(function () {
+      envStub.restore()
+    })
+
+    it('should like webstorm', function () {
+      equal(iLoveEditor.run(), 'I love webstorm')
     })
   })
 })
