@@ -1,8 +1,8 @@
 import { equal } from 'assert'
 import { stub, SinonStub } from 'sinon'
-import * as env from './env'
 import {
-  allBigAndBold, beReallyWelcoming, eitherHello, iLoveEditor, isBigAndBold, join, renderTitle,
+  allBigAndBold, beReallyWelcoming, calcSomething, eitherHello, isBigAndBold, join, renderTitle,
+  sequenceTaskEither,
   soBold
 } from './composing'
 import { identity } from 'fp-ts/lib/function'
@@ -49,12 +49,23 @@ describe('composing', function () {
     })
   })
 
+  describe('taskEither', function () {
+    it('should ', function () {
+      calcSomething
+        .fold(
+          (e) => console.log('left', e),
+          (d) => console.log('right', d)
+        )
+        .run()
+    })
+  })
+
   describe('traversing with either', function () {
     it('should be big and bold', function () {
       const result = allBigAndBold(['big and bold', 'bold and big'])
       equal(result.isRight(), true)
       equal(
-        result.map(join(',')).getOrElse(null),
+        result.map(join(',')).getOrElse(''),
         'big and bold,bold and big'
       )
     })
@@ -75,20 +86,19 @@ describe('composing', function () {
     })
   })
 
-  describe('io', function () {
-    let envStub: SinonStub
-
-    beforeEach(function () {
-      envStub = stub(env, 'readEnv')
-        .returns({ EDITOR: 'webstorm' })
-    })
-
-    afterEach(function () {
-      envStub.restore()
-    })
-
-    it('should like webstorm', function () {
-      equal(iLoveEditor.run(), 'I love webstorm')
+  describe('Sequence TaskEither', function () {
+    it('should ', function () {
+      return sequenceTaskEither()
+        .then((e) => {
+          e.fold(
+            console.log,
+            console.log
+          )
+        })
+        .catch((err) => {
+          console.log('err', err)
+        })
     })
   })
+
 })

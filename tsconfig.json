@@ -1,9 +1,9 @@
 {
-  "configuration": {
+  "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
-    "lib": ["es6", "es2015", "es2017", "dom"],
+    "lib": ["es6", "dom"],
     "sourceMap": true,
     "strict": true
   }
