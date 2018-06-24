@@ -23,15 +23,6 @@ export const buildMiddleware =
 
 // Either pipeline
 
-// interface IRequest {
-//   data: number
-// }
-//
-// interface IResponse {
-//   data?: number,
-//   error?: Error
-// }
-//
 // const a: TMiddleware<any, Either<IResponse, IRequest>> = (env, next) => ctx => {
 //   console.log('a', ctx)
 //   return next(ctx.map(x => ({ ...x, res: 1 })))
@@ -116,26 +107,3 @@ export const buildMiddleware =
 //   )
 //   .run()
 //
-// // what about with promises
-// const prA: TMiddleware<any, Promise<IRequest>> = (env, next) => ctx =>
-//   next(
-//     ctx.then((req) => {
-//       req.data += 10
-//       return req
-//     })
-//   )
-//
-// const prB: TMiddleware<any, Promise<IRequest>> = (env, next) => ctx =>
-//   next(
-//     ctx.then((req) => {
-//       req.data *= 2
-//       return req
-//     })
-//   )
-//
-// const promiseHandler: THandler<Promise<IRequest>, Promise<IResponse>> = (ctx) => {
-//   return ctx
-// }
-//
-// buildMiddleware(prA, prB)({}, promiseHandler)(Promise.resolve({ data: 10 }))
-//   .then(console.log.bind(null, 'Promise'), console.log.bind(null, 'Promise'))

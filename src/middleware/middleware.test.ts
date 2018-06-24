@@ -1,6 +1,7 @@
 import { equal, deepEqual } from 'assert'
 import { chainOfResponsibility } from './chain-of-responsibility'
 import { getSweetsSentence } from './sweets'
+import { fetchPerson } from './promises'
 
 describe('middleware', function () {
 
@@ -38,11 +39,34 @@ describe('middleware', function () {
 
   describe('sweets', function () {
 
-    it('should ', function () {
+    it('should have eaten a lot of sweets', function () {
       equal(
         getSweetsSentence('Barney'),
         'Barney ate 20 sweets and enjoyed it.'
       )
     })
+
+  })
+
+  describe('promises', function () {
+
+    it('should successfully fetch helen', function () {
+      return fetchPerson({ data: { id: 'helen' } })
+        .then((res) => {
+          equal(res.data!.name, 'Helen')
+          equal(res.data!.age, 20)
+        })
+    })
+
+    it('should fail with bob', function () {
+      return fetchPerson({ data: { id: 'bob' } })
+        .then(() => {
+          throw new Error('should not run')
+        })
+        .catch((err) => {
+          equal(err.message, 'Must be an adult')
+        })
+    })
+
   })
 })
