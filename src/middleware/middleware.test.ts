@@ -1,5 +1,6 @@
 import { equal, deepEqual } from 'assert'
-import { chainOfResponsibility } from './middleware'
+import { chainOfResponsibility } from './chain-of-responsibility'
+import { getSweetsSentence } from './sweets'
 
 describe('middleware', function () {
 
@@ -33,5 +34,15 @@ describe('middleware', function () {
       )
     })
 
+  })
+
+  describe('sweets', function () {
+
+    it('should ', function () {
+      equal(
+        getSweetsSentence('Barney'),
+        'Barney ate 20 sweets and enjoyed it.'
+      )
+    })
   })
 })
